@@ -12,6 +12,12 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+/**
+ * Not Used 
+ * 
+ * @author Kenneth Eng
+ *
+ */
 public class LoginServlet extends HttpServlet{
 	private static final Logger log = LogManager.getLogger(LoginServlet.class);
 	

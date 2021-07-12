@@ -60,3 +60,8 @@ local.properties
 ##############################
 .vscode/
 .code-workspace
+
+##############################
+## Hibernate
+##############################
+hibernate.cfg.xml

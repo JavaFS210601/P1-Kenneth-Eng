@@ -53,8 +53,7 @@ public class MainServlet extends HttpServlet{
 							
 						}
 					}
-				
-					
+						
 					//cc.getAllCustomers(res); 
 					foodController.loadAllFood();
 				} else {

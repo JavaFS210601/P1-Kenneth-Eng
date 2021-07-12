@@ -12,6 +12,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.models.Customer;
 import com.revature.services.CustomerService;
 /**
+ * 
+ *  deprecated Customer Controller class
+ *  
  * @author Kenneth Eng
  *
  */

@@ -8,6 +8,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * Not Used 
+ * 
+ * @author Kenneth Eng
+ *
+ */
 public class SuccessServlet extends HttpServlet {
 	
 	//any request comes in will be handled by this object

@@ -14,7 +14,7 @@ import com.revature.models.Customer;
 import com.revature.utils.ConnectionUtilities;
 
 /**
- * deprecated JDBC dao object 
+ * deprecated JDBC dao class
  * 
  * @author Kenneth Eng
  *
