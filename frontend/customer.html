@@ -7,81 +7,229 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Super Secret Shield Database App</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <!--I just googled "bootstrap cdn" and this ^^^ was in the second link under "CSS"-->
-    <!--Thanks to bootstrap, we can style elements in the class attribute-->
+    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"> -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
+        <link rel="stylesheet" href="myStyle.css">
+        <!--I just googled "bootstrap cdn" and this ^^^ was in the second link under "CSS"-->
+    <!--Thanks to bootstrap, we can style elements in the class attribute-->
+   
 </head>
 
 <body>
     <div class="container" id="fullcontainer">
-        <!--We need a div called container to hold all the bootstrap stuff-->
-        <!--only to be added after adding login functionality in back end-->
-        <form action="/login">
+        <!-- <form action="/login">
             User Name:<input type="text" name="username" /><br />
             Password:<input type="password" name="password" /><br />
             <input type="submit" value="submit" />
-        </form>
+        </form> -->
+        <div class="header">
+            <div class="row">
+                
+                <div class="col-md-6" style="padding-top:1em">
+                <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link"  id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">
+                           Home</button>
+                        </li>
+                    <li class="nav-item" role="presentation">
+                    <button class="nav-link logged"  id="pills-category-tab" data-bs-toggle="pill" data-bs-target="#pills-category" type="button" role="tab" aria-controls="pills-category" aria-selected="true">
+                       Category</button>
+                    </li>
+                    <li class="nav-item logged" role="presentation">
+                        <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-ticket" type="button" role="tab" aria-controls="pills-tickets" aria-selected="false">
+                            Tickets List</button>
+                        </li>
+                    <li class="nav-item logged" role="presentation">
+                    <!-- <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">
+                        Food</button> -->
+                    </li>
+                    <li class="nav-item logged" role="presentation">
+                    <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false">
+                        Profile</button>
+                    </li>
+                </ul>
+                 </div>
+                 <div class="col-md-2">
+                    <button   id="myButton"  class="btn btn-secondary btn-sm" style="border-width: 2px;" data-bs-toggle="pill" type="button"  >
+                        Night Mode</button>
 
-        <div id="login-row" class="row">
-            <h3 class="col-lg-12">Please enter your login credentials</h3>
-            <input id="username" type="text" placeholder="username" class="col-sm-4 form-control">
-            <input id="password" type="password" placeholder="password" class="col-sm-4 form-control">
-            <button id="loginButton" class="btn btn-dark">Login</button>
+                 </div>
+                 <div id="login-row" class="col-md-4">
+                
+                    <!-- <h3 class="col-lg-12">Please enter your login credentials</h3> -->
+                    <input id="username" type="text" placeholder="username" class="col-sm-4 form-control">
+                    <input id="password" type="password" placeholder="password" class="col-sm-4 form-control">
+                    <button id="loginButton" class="btn btn-primary">Login</button>
+                    <!-- <button id="registerButton" class="btn btn-primary">Register</button> -->
+                    <a type="button" href="/Register.html" >Or register</a>
+                </div>
+                
+            </div>
         </div>
-        <!--only to be added after adding login functionality in back end-->
-        <div id="table-row" class="row">
-            <!--Then we need rows inside the container to organize it-->
-            <table id="avengerTable" class="table table-hover table-bordered">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Hero Name</th>
-                        <th>Hero Power</th>
-                        <th>First Name</th>
-                        <th>Last Name</th>
-                        <th>Power Level</th>
-                        <th>Home Base</th>
-                    </tr>
-                </thead>
-                <tbody id="avengerBody">
-                    <!--We're going to leave the table body blank!-->
-                </tbody>
-            </table>
-        </div>
-        <br>
-        <br>
-        <button id="getCustomerButton" class="btn btn-success">Avengers Assemble!</button>
 
 
-        <br>
-        <br>
-        <button id="getFoodButton" class="btn btn-success">List all the foodds</button>
-        <div id="table-row" class="row">
-            <table id="foodTable" class="table table-hover table-bordered">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Hero Name</th>
-                        <th>Hero Power</th>
-                        <th>First Name</th>
-                        <th>Last Name</th>
-                        <th>Power Level</th>
-                        <th>Home Base</th>
-                    </tr>
-                </thead>
-                <tbody id="foodBody">
-                    <!--We're going to leave the table body blank!-->
-                </tbody>
-            </table>
+          
+    <div class="tab-content" id="pills-tabContent">
+
+            <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+
+                
+                <section class="jumbotron text-center">
+                    <div class="container">
+                    <h1 class="jumbotron-heading">Home</h1>
+                    <p class="lead text-muted">Something short and leading about the collection below—its contents, the creator, etc. Make it short and sweet, but not too short so folks don't simply skip over it entirely.</p>
+                    
+                
+                    </div>
+                </section>
+                    
+                <div class="row">
+
+                </div>   
+        
         </div>
+
+
+            <div class="tab-pane fade show" id="pills-category" role="tabpanel" aria-labelledby="pills-category-tab">
+
+                
+                    <section class="jumbotron text-center">
+                        <div class="container">
+                        <h1 class="jumbotron-heading">Tickets</h1>
+                        <p class="lead text-muted">Chooose a type to display tickets </p>
+                        <ul >
+                            <ol style="display: inline;"> 
+                            <button id="getTicketType1Button" class="btn btn-success">Food</button>
+                            </ol>
+                
+                            <ol style="display: inline;"><button id="getTicketType2Button" class="btn btn-success">Lodging</button></ol>
+                            <ol style="display: inline;"><button id="getTicketType3Button" class="btn btn-success"> Travel</button></ol>
+                            <ol style="display: inline;"> <button id="getTicketType4Button" class="btn btn-success">Other</button></ol>
+                        </ul>
+                        
+                        <p>
+                            <!-- <a href="#"  id="" class="btn btn-primary my-2">Main call to action</a> -->
+                       
+                            <!-- <a href="#"  id="getFoodButton" class="btn btn-info my-2">List all the foodds</a> -->
+                            <!-- <button id="getFoodButton" class="btn btn-success">List all the foodds</button> -->
+                        </p>
+                        </div>
+                    </section>
+                        
+                    <div class="row">
+                        <!-- <div class="col-md-4">
+                            <div class="card mb-4 box-shadow">
+                            <img class="card-img-top" data-src="holder.js/100px225?theme=thumb&bg=55595c&fg=eceeef&text=Thumbnail" alt="Card image cap">
+                            <div class="card-body">
+                                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                               
+                               
+                                <div class="d-flex justify-content-between align-items-center">
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-sm btn-outline-secondary">ADD</button>
+                                    <button type="button" class="btn btn-sm btn-outline-secondary">REMOVE</button>
+                                </div>
+                                <small class="text-muted">9 bounce</small>
+                                </div>
+                            </div>
+                            </div>
+                        </div> -->
+
+                        <div id="typeBody" class="row" style="margin-top: 1cm;">
+
+                        </div>
+                    </div>   
+            
+            </div>
+
+            <div class="tab-pane fade" id="pills-ticket" role="tabpanel" aria-labelledby="pills-ticket-tab">
+                <a href="#"  id="getTicketsButton" class="btn btn-info my-2">Show all tickets</a>
+                <div id="table-row" class="row">
+                    <table id="ticketTable" class="table table-hover table-bordered">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>ticket Name</th>
+                                <th>ticket type</th>
+                                <th>ticket status</th>
+                                <th>Submitted Date</th>
+                                <th>Resolved Date</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="ticketBody">
+                            <!--We're going to leave the table body blank!-->
+                        </tbody>
+                    </table>
+                </div>
+                <br>
+                <br>
+            </div>
+            
+            <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+                <a href="#"  id="getFoodButton" class="btn btn-info my-2">Show all food owned this user</a>
+                <div id="table-row" class="row">
+                    <table id="foodTable" class="table table-hover table-bordered">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>food Name</th>
+                                <th>food status</th>
+                                <th>food type</th>
+        
+                            </tr>
+                        </thead>
+                        <tbody id="foodBody">
+                            <!--We're going to leave the table body blank!-->
+                        </tbody>
+                    </table>
+                </div>
+                <br>
+                <br>
+            </div>
+
+            <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
+                <button id="getCustomerButton" class="btn btn-success">Show user details</button>
+                    <!--only to be added after adding login functionality in back end-->
+                    <div id="table-row" class="row">
+                        <!--Then we need rows inside the container to organize it-->
+                        <table id="avengerTable" class="table table-hover table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Username</th>
+                                    <!-- <th></th> -->
+                                    <th>First Name</th>
+                                    <th>Last Name</th>
+                                    <th>Role</th>
+                                </tr>
+                            </thead>
+                            <tbody id="userBody">
+                                <!--We're going to leave the table body blank!-->
+                            </tbody>
+                        </table>
+                    </div>
+                    <br>
+                    <br>
+    
+            </div>
+          </div> <!-- End oftab content -->
+          
+
+
     </div> <!-- End of Container -->
 
 
 
     <script src="Customer.js"></script>
-    <script src="Food.js"></script>
+    <script src="ticket.js"></script>
+   
+    <!-- <script src="Food.js"></script> -->
+      <!-- JavaScript Bundle with Popper -->
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </body>
 
 </html>

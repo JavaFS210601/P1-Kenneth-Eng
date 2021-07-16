@@ -1,0 +1,24 @@
+.afterLogin{
+    padding-top: 1em;
+    color: rgb(14, 1, 49);
+}
+
+.bg-dark {
+    background-color: rgb(36, 15, 56);
+    color: white;
+    opacity: 0.85;
+    
+   
+}
+
+
+#myButton {
+    margin-top: 1em;
+}
+
+body{
+    background-image: url(/pexels-aleksandar-pasaric-1411677.jpg) , url(/pexels-lukas-616412.jpg);
+    background-blend-mode: darken;
+    opacity: 0.9;
+    
+}

@@ -13,7 +13,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "ers_foods") // this isn't necessary , but it specifics the name of table as "foods"
+@Table(name = "foods") // this isn't necessary , but it specifics the name of table as "foods"
 public class Food {
 	
 	@Id  // it makes it a primary key
@@ -24,20 +24,20 @@ public class Food {
 	@Column(name = "food_name", nullable = false)
 	private String name;
 	
-	@Column()
+	@Column(name = "food_receipt")
 	private String receipt;
 	
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToOne(targetEntity=User.class,fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name = "user_id")
-	private String owner;
+	private User owner;
 	
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name = "food_type_id", nullable = false )
-	private int typeId;
+	private FoodTypes foodtype;
 	
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name = "food_status_id", nullable = false )
-	private int statusId;
+	private FoodStatus foodstatus;
 	
 	/*
 	 * FetchType defines "When" hibernate will go to the database
@@ -64,19 +64,22 @@ public class Food {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Food(String name, int type, int statusId, Manager manager) {
+	public Food(String name, User owner, FoodTypes type, FoodStatus foodstatus, Manager manager) {
 		super();
 		this.name = name;
-		this.typeId = type;
+		this.owner = owner;
+		this.foodtype = type;
+		this.foodstatus = foodstatus;
 		this.manager = manager;
 	}
 
-	public Food(int id, String name, int type, int statusId, Manager manager) {
+	public Food(int id, String name,  User owner, FoodTypes type, FoodStatus foodstatus, Manager manager) {
 		super();
 		this.id = id;
 		this.name = name;
-		this.typeId = type;
-		this.statusId = statusId;
+		this.owner = owner;
+		this.foodtype = type;
+		this.foodstatus = foodstatus;
 		this.manager = manager;
 	}
 	
@@ -107,33 +110,48 @@ public class Food {
 		this.manager = manager;
 	}
 
-	public int getTypeId() {
-		return typeId;
+	public String getReceipt() {
+		return receipt;
 	}
 
-	public void setTypeId(int typeId) {
-		this.typeId = typeId;
+	public void setReceipt(String receipt) {
+		this.receipt = receipt;
 	}
 
-	public int getStatusId() {
-		return statusId;
+	public User getOwner() {
+		return owner;
 	}
 
-	public void setStatusId(int statusId) {
-		this.statusId = statusId;
+	public void setOwner(User owner) {
+		this.owner = owner;
 	}
 	
 	
+	public FoodTypes getFoodtype() {
+		return foodtype;
+	}
+
+	public void setFoodtype(FoodTypes foodtype) {
+		this.foodtype = foodtype;
+	}
+
+	public FoodStatus getFoodstatus() {
+		return foodstatus;
+	}
+
+	public void setFoodstatus(FoodStatus foodstatus) {
+		this.foodstatus = foodstatus;
+	}
 
 	@Override
 	public String toString() {
-		return "Food [id=" + id + ", name=" + name + ", receipt=" + receipt + ", owner=" + owner + ", typeId=" + typeId
-				+ ", statusId=" + statusId + ", manager=" + manager + "]";
+		return "Food [id=" + id + ", name=" + name + ", receipt=" + receipt + ", owner=" + owner + ", foodtype=" + foodtype
+				+ ", foodstatus=" + foodstatus + ", manager=" + manager + "]";
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, manager, name, owner, receipt, statusId, typeId);
+		return Objects.hash(id, manager, name, owner, receipt, foodstatus, foodtype);
 	}
 
 	@Override
@@ -147,7 +165,7 @@ public class Food {
 		Food other = (Food) obj;
 		return id == other.id && Objects.equals(manager, other.manager) && Objects.equals(name, other.name)
 				&& Objects.equals(owner, other.owner) && Objects.equals(receipt, other.receipt)
-				&& statusId == other.statusId && typeId == other.typeId;
+				&& foodstatus == other.foodstatus && foodtype == other.foodtype;
 	}
 
 	

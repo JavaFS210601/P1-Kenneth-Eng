@@ -14,16 +14,18 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.revature.controllers.CustomerController;
 import com.revature.controllers.FoodController;
-import com.revature.controllers.LoginController;
+import com.revature.controllers.TicketController;
+import com.revature.controllers.UserController;
 
 /**
  * @author Kenneth Eng
  *
  */
 public class MainServlet extends HttpServlet{
-	private CustomerController cc = new CustomerController();
+	private TicketController ticketController = new TicketController();
+	//private CustomerController cc = new CustomerController();
 	private FoodController foodController = new FoodController();
-	private LoginController loginController= new LoginController();
+	private UserController userController= new UserController();
 	
 	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException{
 		res.setContentType("application/json");
@@ -36,13 +38,35 @@ public class MainServlet extends HttpServlet{
 
 		String URI = req.getRequestURI().replace("/P1-Kenneth-Eng/", "");
 		// make a log here to debug the URI 
-		System.out.println("URI" +URI);
-		URI = URI.replace("/", "");
-		switch(URI) {
-			case "food": 
-				foodController.loadAllFood();
+		URI = URI.toLowerCase();
+		//URI = URI.replace("/", "");
+		String[] URi = URI.split("/");
+		System.out.println("URI " +URi[0]);
+		switch(URi[0]) {
+			case "test":
+				if (URi[1] != null) {
+				System.out.println("approve" + URi[1]);
+				ticketController.approveTicket(res, Integer.valueOf(URi[1]));
+				//res.setStatus(200);
+				} 
 				break;
-			case "customers": 
+			case "tickets":
+				System.out.println("create ticket.");
+				//if (req.getSession(false) != null) {
+					
+				if (URi.length == 3) {
+					ticketController.getTicketsByType(res, URi[2]);
+				} else  {
+					//ticketController.initTicketDB(res);
+					ticketController.loadAllTickets( res);
+				} 
+				
+				//}
+				break;
+			case "food": 
+				foodController.loadAllFood(res);
+				break;
+			case "users": 
 				
 				// false means it will not create a new one.
 				if (req.getSession(false) != null) {
@@ -52,22 +76,40 @@ public class MainServlet extends HttpServlet{
 							System.out.print(c.getName() + " " + c.getValue());
 							
 						}
-					}
-						
-					//cc.getAllCustomers(res); 
-					foodController.loadAllFood();
+					}	
+					userController.getAllUsers(res);
+					//foodController.loadAllFood();
 				} else {
 					res.setStatus(403);
 				}
-				
-				
+
 				break;
 		
 			case "foods":
-				foodController.loadAllFood();
-			case "login":
-				loginController.login(req, res);
+				if (req.getSession(false) != null) {
+					//foodController.loadAllFood(res);
+					foodController.getFoodByUserId(res);
+				} else {
+					res.setStatus(403);
+				}
 				break;
+			case "type":
+				if (URi.length == 2) {
+					System.out.println("URI 2 " +URi[1]);
+					//int typeid = Integer.valueOf(URi[1]);
+					
+					foodController.getFoodByType(res, URi[1]);
+					
+				}
+				break;
+			case "alltypes":
+				foodController.getAllFoodTypes(res);
+				break;
+				
+//			case "login":
+//				userController.login(req, res);
+//				break;
+			
 		}
 	}
 	
@@ -76,23 +118,28 @@ public class MainServlet extends HttpServlet{
 		res.setStatus(404);
 
 		String URI = req.getRequestURI().replace("/P1-Kenneth-Eng/", "");
+		//URI = URI.replace("/", "");
 
 		switch(URI) {
 		
-			case "customers": 
+			case "users": 
 				
 				// false means it will not create a new one.
-				//if (req.getSession(false) != null) {
+				if (req.getSession(false) != null) {
 					System.out.println("hello from customer");
-					cc.getAllCustomers(res); 
-				//} else {
-					
-				//}
+					userController.getAllUsers(res);
+				} else {
+					res.setStatus(403);
+				}
 				
 				
 				break;
 			case "login":
-				loginController.login(req, res);
+				userController.login(req, res);
+				break;
+				
+			case "register":
+				userController.register(req, res);
 				break;
 		}
 	}

@@ -3,6 +3,7 @@
  */
 package com.revature.models;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -40,8 +41,8 @@ public class Manager {
 	 * toString of this class might break the problem with stackoverthrown 
 	 * Fix: change the toString() of Food to use get Methods of Manager class.
 	*/
-//	@OneToMany(mappedBy="manager", fetch=FetchType.EAGER)
-//	private List<Food> anthology;
+	@OneToMany(mappedBy="manager", fetch=FetchType.EAGER)
+	private List<Food> anthology = new ArrayList<>();
 
 	public Manager() {
 		super();

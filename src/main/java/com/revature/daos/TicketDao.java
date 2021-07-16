@@ -1,0 +1,132 @@
+/**
+ * 
+ */
+package com.revature.daos;
+
+import java.util.List;
+
+import org.hibernate.Session;
+
+import com.revature.models.Food;
+import com.revature.models.Ticket;
+import com.revature.models.TicketStatus;
+import com.revature.models.TicketType;
+import com.revature.utils.HibernateUtil;
+
+/**
+ * @author Kenneth Eng
+ *
+ */
+public class TicketDao {
+	public List<Ticket> findAllTickets() {
+
+		Session ses = HibernateUtil.getSession();
+
+		// Using HQL! Hibernate Query Language that references the java class
+		// e.g. "Food" in our model package, instead of "Food" in database.
+
+		List<Ticket> ticketList = ses.createQuery("FROM Ticket").list();
+		// at the end, we are turing the results into a list
+
+		HibernateUtil.closeSession();
+
+		return ticketList;
+
+	}
+	
+
+	public void updateTicket(Ticket ticket) {
+
+		Session ses = HibernateUtil.getSession();
+
+		ses.merge(ticket);
+
+		HibernateUtil.closeSession();
+	}
+	
+	public void apprveTicketByTicketId(int id) {
+		Session ses = HibernateUtil.getSession();
+
+		 ses.createQuery("UPDATE Ticket  SET ticketStatus = 2"
+				+ " WHERE id = " + id).executeUpdate();
+
+		HibernateUtil.closeSession();
+	}
+
+	public void insertTicket(Ticket ticket) {
+
+		Session ses = HibernateUtil.getSession();
+
+		ses.save(ticket);
+
+		HibernateUtil.closeSession();
+	}
+	
+	public List<Ticket> getTicketsByUserId(int id) {
+		Session ses = HibernateUtil.getSession();
+
+	
+		List<Ticket> ticketList = ses.createQuery("FROM Ticket as ticket WHERE "
+				+ " ticket.owner =  "+ id).list();
+
+		HibernateUtil.closeSession();
+
+		return ticketList;
+	}
+
+	public Ticket getTicketById(int id) {
+
+		Session ses = HibernateUtil.getSession();
+
+		Ticket ticket = ses.get(Ticket.class, id);
+
+		HibernateUtil.closeSession();
+
+		return ticket;
+
+	}
+	
+	public List<TicketType> getTickettypes() {
+		
+		Session ses = HibernateUtil.getSession();
+		
+		List<TicketType> ticketTypes = ses.createQuery("FROM TicketType").list();
+		
+		HibernateUtil.closeSession();
+		
+		return ticketTypes;
+	}
+
+	public TicketType getTicketTypeById(int id) {
+		Session ses = HibernateUtil.getSession();
+
+		TicketType ticketType = ses.get(TicketType.class, id);
+
+		HibernateUtil.closeSession();
+
+		return ticketType;
+	}
+	
+	public TicketStatus getTicketStatusById(int id) {
+		
+		Session ses = HibernateUtil.getSession();
+
+		TicketStatus ticketStatus = ses.get(TicketStatus.class, id);
+
+		HibernateUtil.closeSession();
+
+		return ticketStatus;
+	}
+
+	public List<Ticket> getTicketsByType(int id) {
+		
+		Session ses = HibernateUtil.getSession();
+		
+		String hql = "FROM Ticket WHERE ticket_type_id = " + id;
+
+		List<Ticket> results = ses.createQuery(hql).list();
+		return results;
+	}
+	
+	
+}

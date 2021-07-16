@@ -17,7 +17,7 @@ import org.junit.jupiter.api.Test;
  * @author Kenneth Eng
  *
  */
-public class ServeletTest {
+public class ServeletTest  {
 	// Test objects
 	
 	
