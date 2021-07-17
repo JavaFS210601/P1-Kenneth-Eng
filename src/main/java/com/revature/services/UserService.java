@@ -28,6 +28,12 @@ import com.revature.models.UserRole;
 public class UserService {
 	private UserDao userDao = new UserDao();
 	private ManagerDao mdao = new ManagerDao();
+	
+	public User getUserByUserByUsernameAndPassword(String username, String password) {
+			User user = userDao.findUserByUsernameAndPassword(username, password);
+		
+			return user;
+	}
 
 	public boolean login(String username, String password) {
 		User user = userDao.findUserByUsernameAndPassword(username, password);
@@ -79,7 +85,10 @@ public class UserService {
 	public User getUserById(int id) {
 		return userDao.selectUserById(id);
 	}
-
+	
+	/*
+	 * Deprecated
+	 */
 	public Manager getManagerById(int id) {
 		return mdao.getManagerById(id);
 	}

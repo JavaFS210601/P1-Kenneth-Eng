@@ -71,6 +71,7 @@ public class DaoTest {
 		System.out.println("In AfterEach");
 		//reset values here
 	}
+	
 	/*
 	 * Test if the user dao object return the correct value
 	 * 

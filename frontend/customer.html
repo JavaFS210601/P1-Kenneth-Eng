@@ -14,7 +14,7 @@
         <link rel="stylesheet" href="myStyle.css">
         <!--I just googled "bootstrap cdn" and this ^^^ was in the second link under "CSS"-->
     <!--Thanks to bootstrap, we can style elements in the class attribute-->
-   
+  
 </head>
 
 <body>
@@ -38,7 +38,7 @@
                        Category</button>
                     </li>
                     <li class="nav-item logged" role="presentation">
-                        <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-ticket" type="button" role="tab" aria-controls="pills-tickets" aria-selected="false">
+                        <button class="nav-link" id="pills-ticket-tab" data-bs-toggle="pill" data-bs-target="#pills-ticket" type="button" role="tab" aria-controls="pills-tickets" aria-selected="false">
                             Tickets List</button>
                         </li>
                     <li class="nav-item logged" role="presentation">
@@ -47,8 +47,13 @@
                     </li>
                     <li class="nav-item logged" role="presentation">
                     <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false">
-                        Profile</button>
+                         Peoples</button>
                     </li>
+
+                    <li class="nav-item signedin" role="presentation">
+                        <button class="nav-link" id="pills-request-tab" data-bs-toggle="pill" data-bs-target="#pills-request" type="button" role="tab" aria-controls="pills-request" aria-selected="false">
+                            Open Ticket</button>
+                        </li>
                 </ul>
                  </div>
                  <div class="col-md-2">
@@ -81,8 +86,12 @@
                     <h1 class="jumbotron-heading">Home</h1>
                     <p class="lead text-muted">Something short and leading about the collection below—its contents, the creator, etc. Make it short and sweet, but not too short so folks don't simply skip over it entirely.</p>
                     
-                
+                    <div id="sessionDiv" data-id='@Session["UserID"]'></div>
+                    <button id="employeeTicketButton" class="btn btn-info signedin">Show Tickets</button>
+                    <div  id="employeeTicketBody" class="row" style="margin: 1em;">
+                        
                     </div>
+                    
                 </section>
                     
                 <div class="row">
@@ -90,6 +99,71 @@
                 </div>   
         
         </div>
+
+        <div class="tab-pane fade show " id="pills-request" role="tabpanel" aria-labelledby="pills-request-tab">
+
+                
+            <section class="jumbotron text-center">
+                <div class="container">
+                <h1 class="jumbotron-heading">Submit Reimbursment</h1>
+           <div class="form">
+                <div class="form-group row ">
+                    <div class="col-3"  ></div>
+                    <div class="col-3"  >
+                        <label>Name:</label>
+                        <input class="form-control" id="ticketName" />
+                    </div>
+                    <div class="col-3"></div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-3"  ></div>
+                    <div    class="col-lg-2">
+                        <label>amount:</label>
+                            <input type="number"class="form-control-sm" id="ticketAmount" />
+                        </div>
+               
+                                    
+                </div>
+
+        
+                <div class="form-group row">
+                    <div class="col-3"  ></div>
+                            <div   class="col-lg-4">
+                                <label>description:</label>
+                                <textarea class="form-control" id="ticketDescription" rows="3"></textarea>
+                                        
+                </div>
+                <div class="form-group row" style="padding-top:2em; padding-left: 2em;">
+                    <div class="row">
+                        <div class="col-3"></div>
+                        <div class="col-lg-4">
+                            <label>ticketType:</label>
+                            <select multiple class="form-control"id="ticketType" class="form-select" name="role" id="role">
+                                <option value="food">Food</option>
+                                <option value="lodging" selected> Lodging</option>
+                                <option value="travel">Travel</option>
+                                <option value="other">Other</option>
+                            </select>
+                          </div>
+                          <div class="col-3"></div>
+                    </div>
+                   
+                    
+                    
+                </div>
+                <div class="row" style="margin-top: 1em;">
+                    <div class="col-3"></div>
+                <div class="col-3">
+                    <button id="openTicketButton" class="btn btn-primary">Open Ticket</button>
+                 </div>
+                 <div class="col-3"></div>
+                 </div>
+            </div>
+            </section>
+         
+    
+    </div>
 
 
             <div class="tab-pane fade show" id="pills-category" role="tabpanel" aria-labelledby="pills-category-tab">
@@ -152,6 +226,7 @@
                             <tr>
                                 <th>ID</th>
                                 <th>ticket Name</th>
+                                <th>Amount</th>
                                 <th>ticket type</th>
                                 <th>ticket status</th>
                                 <th>Submitted Date</th>

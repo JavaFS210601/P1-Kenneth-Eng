@@ -6,6 +6,38 @@ loggedElements = document.getElementsByClassName("logged");
         loggedElements[2].style.display = "none";
         loggedElements[3].style.display = "none";
 
+employeeElements = document.getElementsByClassName("signedin");       
+employeeElements[0].style.display = "none";
+employeeElements[1].style.display = "none";
+
+window.addEventListener('load', function () {
+    //keepMeLogin()
+      //loginFunc()
+
+})
+
+function keepMeLogin(){
+  // IsThisFirstTime_Log_From_LiveServer
+  var loginname = getCookie("username");
+  var pwd = getCookie("pwd");
+
+  loginFunc();
+   if(loginname !=null && pwd != null){
+    //Show popup
+    var date = new Date();
+    date.setTime(date.getTime()+(-1*24*60*60*1000));
+    expires = "; expires="+date.toGMTString();
+    console.log(loginname + " " + pwd);
+    document.cookie = loginname+"="+ expires+"; path=/";
+    document.cookie = pwd+"="+  expires+"; path=/";
+   }
+   else{
+    //Show loginpage
+   }
+ 
+}
+
+
 
 var darkModeButton = document.getElementById('myButton');
 var bg3 = document.getElementsByClassName("card");
@@ -16,6 +48,8 @@ for (let i = 0; i < bg3.length; i++) {
   table.style.color = "white";
   let table2 = document.getElementById("avengerTable");
   table2.style.color = "white";
+  let table3 = document.getElementById("ticketTable");
+          table3.style.color = "white";
 //bg.classList.add("bg-dark");
 document.body.style.backgroundColor = "yellow";
 document.body.style.color = "white";
@@ -105,15 +139,25 @@ async function assembleFunc(){
 
 document.getElementById("loginButton").addEventListener("click", loginFunc);
 
+
+
 async function loginFunc() {
 
     let username = document.getElementById("username").value;
     let password = document.getElementById("password").value;
 
+    // if (getCookie("username") && getCookie("pwd")){
+    //   username = getCookie("username");
+    //    password = getCookie("pwd");
+    // }
+
+
     let user = {
         username: username,
         password: password
     }
+
+    
 
     let response = await fetch(url + "login", {
         method: "POST", 
@@ -128,23 +172,45 @@ async function loginFunc() {
        credentials: "include" // this will ensure the cookie is captured by the browser 
         
     });
-
+    
 
      //control flow based on success or failed login
      if(response.status === 200) {
+        
+        storeUserCookie(username);
+        storePwdCookie(password);
+      
+        console.log(response);
+        // let decodedCookie = decodeURIComponent(document.cookie);
+        // console.log(decodedCookie);
         //this will wipe our login row, and welcome the user
         let loginPanel = document.getElementById("login-row");
-        loginPanel.innerText="Welcome! "+ username.toUpperCase()  +" " ;
+
+        let data = await response.json();
+        storeIDCookie(data.userid)
+
+        loginPanel.innerText="Welcome! "+ data.username ;
         loginPanel.classList.add("afterLogin");
+
+        let roleTab = document.createElement('caption');
+        roleTab.innerHTML =  " Role: " + data.userrole;
+        loginPanel.appendChild(roleTab);
+
         if (getCookie("darkmode") === "false"){
             loginPanel.style.color = document.body.style.color;
         }
 
-        loggedElements = document.getElementsByClassName("logged");
-        loggedElements[0].style.display = "block";
-        loggedElements[1].style.display = "block";
-        loggedElements[2].style.display = "block";
-        loggedElements[3].style.display = "block";
+        if (data.userrole == "manager") {
+          loggedElements = document.getElementsByClassName("logged");
+          loggedElements[0].style.display = "block";
+          loggedElements[1].style.display = "block";
+          loggedElements[2].style.display = "block";
+          loggedElements[3].style.display = "block";
+        } else {
+          employeeElements = document.getElementsByClassName("signedin");
+          employeeElements[0].style.display = "block";
+          employeeElements[1].style.display = "block";
+        }
         // document.cookie = "username=ken; expires=Thu, 18 july 2021 12:00:00"
     } else {
         document.getElementById("login-row").innerText="Login Failed! Refresh the page!";
@@ -280,7 +346,9 @@ async function loadFunc(){
     });
 
     if (response.status === 200){
-        console.log(response);
+        //console.log(response.getResponseHeader("Set-Cookie"));
+        
+
         document.getElementById("foodBody").innerHTML = "";
         //let table = document.getElementByTagName('table');
         
@@ -341,6 +409,7 @@ function bgDark(){
           table2.style.color = "white";
 
           let table3 = document.getElementById("ticketTable");
+          //table3.backgroundColor= "black";
           table3.style.color = "white";
         //bg.classList.add("bg-dark");
         document.body.style.backgroundColor = "yellow";
@@ -368,6 +437,39 @@ function bgDark(){
       }
 
     
+}
+
+function storeUserCookie(name){
+  var expires = "";
+     
+  var date = new Date();
+  date.setTime(date.getTime()+(365*24*60*60*1000));
+  expires = "; expires="+date.toGMTString();
+
+  document.cookie = "username"+"="+name+expires+"; path=/";
+  // document.cookie = "pwd"+"="+password+expires+"; path=/";
+}
+
+function storePwdCookie(name){
+  var expires = "";
+     
+  var date = new Date();
+  date.setTime(date.getTime()+(365*24*60*60*1000));
+  expires = "; expires="+date.toGMTString();
+
+  document.cookie = "password"+"="+name+expires+"; path=/";
+  // document.cookie = "pwd"+"="+password+expires+"; path=/";
+}
+
+function storeIDCookie(id){
+  var expires = "";
+     
+  var date = new Date();
+  date.setTime(date.getTime()+(365*24*60*60*1000));
+  expires = "; expires="+date.toGMTString();
+
+  document.cookie = "userid"+"="+id+expires+"; path=/";
+  
 }
 
 function getCookie(cname) {

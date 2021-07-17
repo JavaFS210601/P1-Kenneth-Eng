@@ -3,7 +3,10 @@
  */
 package com.revature.services;
 
+import java.io.BufferedReader;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import com.revature.daos.FoodDao;
@@ -23,18 +26,37 @@ public class TicketService {
 	private TicketDao ticketDao = new TicketDao();
 	
 	public boolean  insertTicket(Ticket ticket) {
+		
 		ticketDao.insertTicket(ticket);;
 		return true;
 	}
 	
 	public boolean approveTicketById(int id) {
-//		Ticket ticket = ticketDao.getTicketById(id);
-//		TicketStatus ts = ticketDao.getTicketStatusById(2);
-//		ticket.setTicketStatus(ts);
-//		System.out.println(ticket.getTicketStatus().getTicketStatus() + "----------------------------");
-//		ticketDao.updateTicket(ticket);
-		ticketDao.apprveTicketByTicketId( id);
+		Ticket ticket = ticketDao.getTicketById(id);
+		TicketStatus ts = ticketDao.getTicketStatusById(2);
+		ticket.setTicketStatus(ts);
+		Date now = new Date();
+		Timestamp updateDate = new Timestamp(now.getTime());
+		ticket.setResolveDate(updateDate);
+		System.out.println(ticket.getTicketStatus().getTicketStatus() + "----------------------------");
+		ticketDao.updateTicket(ticket);
+		//ticketDao.apprveTicketByTicketId( id);
 		return true;
+	}
+	
+
+	public boolean rejectTicketById(int id) {
+		Ticket ticket = ticketDao.getTicketById(id);
+		TicketStatus ts = ticketDao.getTicketStatusById(3);
+		ticket.setTicketStatus(ts);
+		Date now = new Date();
+		Timestamp updateDate = new Timestamp(now.getTime());
+		ticket.setResolveDate(updateDate);
+		System.out.println(ticket.getTicketStatus().getTicketStatus() + "----------------------------");
+		ticketDao.updateTicket(ticket);
+		//ticketDao.apprveTicketByTicketId( id);
+		return true;
+		
 	}
 	
 	public List<Ticket> getAllTickets() {
@@ -52,6 +74,7 @@ public class TicketService {
 		
 		return usersTickets;
 	}
+
 	
 	public List<Ticket> getTicketsByType(int type){
 		return ticketDao.getTicketsByType(type);
@@ -61,6 +84,10 @@ public class TicketService {
 		return ticketDao.getTickettypes();
 	}
 	
+	public TicketType getTicketTypeByName(String name) {
+		return ticketDao.getTicketTypeByName(name);
+	}
+	
 	public TicketType getTicketTypeById(int id) {
 		return ticketDao.getTicketTypeById(id);
 	}
@@ -68,4 +95,7 @@ public class TicketService {
 	public TicketStatus getTicketStatusById(int id) {
 		return ticketDao.getTicketStatusById(id);
 	}
+
+	
+
 }

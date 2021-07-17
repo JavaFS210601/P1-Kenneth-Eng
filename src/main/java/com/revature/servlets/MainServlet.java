@@ -43,7 +43,20 @@ public class MainServlet extends HttpServlet{
 		String[] URi = URI.split("/");
 		System.out.println("URI " +URi[0]);
 		switch(URi[0]) {
-			case "test":
+			case "employee":
+				//if (URi[1].equals( "tickets") ) {
+					System.out.println("retrieve employee tickets");
+					ticketController.getTicketByUserId( res, Integer.valueOf(URi[1]) );
+			//	}
+				break;
+			case "reject":
+				if (URi[1] != null) {
+				System.out.println("approve" + URi[1]);
+				ticketController.rejectTicket(res, Integer.valueOf(URi[1]));
+				//res.setStatus(200);
+				} 
+				break;
+			case "approve":
 				if (URi[1] != null) {
 				System.out.println("approve" + URi[1]);
 				ticketController.approveTicket(res, Integer.valueOf(URi[1]));
@@ -72,15 +85,14 @@ public class MainServlet extends HttpServlet{
 				if (req.getSession(false) != null) {
 					if (req.getCookies() != null) {
 						System.out.println("hello from customer. this is your cookies");
-						for ( javax.servlet.http.Cookie c :req.getCookies()) {
-							System.out.print(c.getName() + " " + c.getValue());
-							
-						}
+						
 					}	
-					userController.getAllUsers(res);
+					//userController.getAllUsers(res);
+					res.setStatus(403);
 					//foodController.loadAllFood();
 				} else {
-					res.setStatus(403);
+					//res.setStatus(403);
+					userController.getAllUsers(res);
 				}
 
 				break;
@@ -121,7 +133,10 @@ public class MainServlet extends HttpServlet{
 		//URI = URI.replace("/", "");
 
 		switch(URI) {
-		
+			case "open":
+				System.out.println("open ticket begin");
+				ticketController.insertTicket(req, res);
+			break;
 			case "users": 
 				
 				// false means it will not create a new one.
@@ -135,7 +150,18 @@ public class MainServlet extends HttpServlet{
 				
 				break;
 			case "login":
-				userController.login(req, res);
+				if (req.getSession(false) != null) {
+					
+//					req.getSession(false).getAttribute("username");
+//					
+					userController.autoLogin(req, res);
+					
+				
+					//userController.login(req, res);
+					
+				} else {
+					userController.login(req, res);
+				}
 				break;
 				
 			case "register":

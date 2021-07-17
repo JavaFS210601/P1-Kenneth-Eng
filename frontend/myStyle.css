@@ -4,7 +4,7 @@
 }
 
 .bg-dark {
-    background-color: rgb(36, 15, 56);
+    background-color: rgb(192, 216, 87);
     color: white;
     opacity: 0.85;
     
@@ -17,7 +17,7 @@
 }
 
 body{
-    background-image: url(/pexels-aleksandar-pasaric-1411677.jpg) , url(/pexels-lukas-616412.jpg);
+    background-image: url(/pexels-photo-260689.jpeg)  ;
     background-blend-mode: darken;
     opacity: 0.9;
     

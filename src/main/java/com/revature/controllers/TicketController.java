@@ -3,12 +3,14 @@
  */
 package com.revature.controllers;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -16,6 +18,8 @@ import com.revature.models.Food;
 import com.revature.models.FoodTypes;
 import com.revature.models.FoodsResponseDTO;
 import com.revature.models.Manager;
+import com.revature.models.NewTicketDTO;
+import com.revature.models.RegisterDTO;
 import com.revature.models.Ticket;
 import com.revature.models.TicketStatus;
 import com.revature.models.TicketType;
@@ -38,9 +42,10 @@ public class TicketController {
 	
 	private List<TicketType> ticketTypesList;
 
-	public void initTicketDB(HttpServletResponse res) throws IOException {
-	
-
+	public void initTicketDB( HttpServletResponse res) throws IOException {
+		
+		
+			
 		//UserRole r1 = new UserRole(0, "manager");
 		
 		User u1 = userService.getUserById(1);
@@ -54,7 +59,7 @@ public class TicketController {
 		Timestamp resolvedate = new Timestamp(today.getTime());
 		// name, owner id , type id , status id, 
 		Ticket ticket1 = new Ticket("ticket 1",createdate, resolvedate , "description", 500.0, "" , u1, t1 , s1 ); // bean type id is 1 and owner id is 1
-		ticketService.insertTicket(ticket1);
+		//ticketService.insertTicket(ticket1);
 		res.setStatus(200);
 		
 	}
@@ -64,23 +69,81 @@ public class TicketController {
 		res.getWriter().print("Ticket "+ id + " is approved");
 		res.setStatus(200);
 	}
-
-	public void insertTicket(HttpServletResponse res) throws IOException {
+	
+	public void rejectTicket(HttpServletResponse res, int id) throws IOException {
+		ticketService.rejectTicketById(id);
+		res.getWriter().print("Ticket "+ id + " is approved");
+		res.setStatus(200);
 		
-		Manager m1 = userService.getManagerById(1);
+	}
+
+	public void insertTicket(HttpServletRequest req, HttpServletResponse res) throws IOException {
+		BufferedReader reader = req.getReader();
+		
+		StringBuilder myStringBuilder = new StringBuilder();
+		
+		String line = reader.readLine();
+		
+		while (line != null) {
+			myStringBuilder.append(line);
+			line = reader.readLine();
+		}
+		
+		String body = new String(myStringBuilder);
+		
+		NewTicketDTO newTicketDTO = om.readValue(body, NewTicketDTO.class);
+		
+		
+		//Manager m1 = userService.getManagerById(1);
 		//UserRole r1 = userService.getUserRoleById(1);
 	
-		User u1 = userService.getUserById(1);
-		UserRole r1= u1.getUserrole();
-		TicketType t1 = ticketService.getTicketTypeById(1);
+		User u1 = userService.getUserById(newTicketDTO.getId());
+		//UserRole r1= u1.getUserrole();
+		
+		// set the incoming ticket type
+		TicketType t1 = ticketService.getTicketTypeByName(newTicketDTO.getType());
+		
+		// set the incoming ticket to pending
 		TicketStatus s1 = ticketService.getTicketStatusById(1);
  
 		Date today = new Date();
 		Timestamp createdate = new Timestamp(today.getTime());
 		Timestamp resolvedate = new Timestamp(today.getTime());
-		Ticket ticket1 = new Ticket("ticket 1",createdate, resolvedate , "description", 500.0, "" , u1, t1 , s1 );
-		ticketService.insertTicket(ticket1);
+		Ticket ticket1 = new Ticket(newTicketDTO.getName(),createdate, resolvedate , newTicketDTO.getDescription(), newTicketDTO.getAmount(), "" , u1, t1, s1 );
+		//ticketService.insertTicket(ticket1);
+		System.out.println(ticket1.toString());
+		res.setStatus(200);
 		
+	}
+	
+	public void getTicketByUserId(HttpServletResponse res, int id )throws IOException {
+		List<Ticket> tickets = ticketService.getTicketsByUserId(id);
+		
+		List<TicketsResponseDTO> ticketResponseList = new ArrayList<TicketsResponseDTO>();
+		for(Ticket t : tickets) {
+			//System.out.println(f.getId() + " " + f.getName() + " " + f.getFoodtype().toString() + f.getFoodstatus().toString());
+			TicketsResponseDTO ticketResponse = new TicketsResponseDTO();
+			ticketResponse.setId(t.getId());
+			ticketResponse.setName(t.getName());
+			ticketResponse.setReceipt(t.getReceipt());
+			ticketResponse.setCreateDate(t.getCreateDate());
+			ticketResponse.setResolveDate(t.getResolveDate());
+			ticketResponse.setDescription(t.getDescription());
+			ticketResponse.setAmount(t.getAmount());
+			ticketResponse.setOwner(t.getOwner().getUsername());
+			ticketResponse.setTicketType(t.getTicketType().getTicketType());
+			ticketResponse.setTicketStatus(t.getTicketStatus().getTicketStatus());
+			ticketResponseList.add(ticketResponse);
+		}
+		
+		res.setContentType("application/json");
+		res.setCharacterEncoding("UTF-8");
+		
+		String json = om.writeValueAsString(ticketResponseList);
+		System.out.println(json);
+		res.getWriter().print(json);
+		
+		res.setStatus(200);
 	}
 	
 	public void getTicketsByType(HttpServletResponse res, String type) throws IOException {
@@ -141,6 +204,7 @@ public class TicketController {
 			TicketsResponseDTO ticketsResponse = new TicketsResponseDTO();
 			ticketsResponse.setId(f.getId());
 			ticketsResponse.setName(f.getName());
+			ticketsResponse.setAmount(f.getAmount());
 			ticketsResponse.setReceipt(f.getReceipt());
 			ticketsResponse.setCreateDate(f.getCreateDate());
 			ticketsResponse.setResolveDate(f.getResolveDate());
@@ -160,4 +224,6 @@ public class TicketController {
 		
 		
 	}
+
+
 }

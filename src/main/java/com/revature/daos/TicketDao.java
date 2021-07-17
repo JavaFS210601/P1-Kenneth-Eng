@@ -6,6 +6,7 @@ package com.revature.daos;
 import java.util.List;
 
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import com.revature.models.Food;
 import com.revature.models.Ticket;
@@ -36,20 +37,26 @@ public class TicketDao {
 	
 
 	public void updateTicket(Ticket ticket) {
-
+		
 		Session ses = HibernateUtil.getSession();
-
+		Transaction tx = null;
+		tx = ses.beginTransaction();
 		ses.merge(ticket);
-
+		 tx.commit();
 		HibernateUtil.closeSession();
 	}
 	
 	public void apprveTicketByTicketId(int id) {
 		Session ses = HibernateUtil.getSession();
-
-		 ses.createQuery("UPDATE Ticket  SET ticketStatus = 2"
-				+ " WHERE id = " + id).executeUpdate();
-
+		
+		
+		
+//		Query query = ses.createQuery("UPDATE Ticket  SET ticketStatus = :statusid"
+//				+ " WHERE id = :userid" );
+//		 query.setParameter("statusid", 2);
+//		 query.setParameter("userid", id);
+		
+		 
 		HibernateUtil.closeSession();
 	}
 
@@ -126,6 +133,18 @@ public class TicketDao {
 
 		List<Ticket> results = ses.createQuery(hql).list();
 		return results;
+	}
+
+
+	public TicketType getTicketTypeByName(String name) {
+		Session ses = HibernateUtil.getSession();
+
+		String query = "FROM TicketType WHERE ticketType = :name" ;
+		TicketType ticketType = (TicketType )ses.createQuery(query).setParameter("name", name).getSingleResult();
+
+		HibernateUtil.closeSession();
+
+		return ticketType;
 	}
 	
 	
