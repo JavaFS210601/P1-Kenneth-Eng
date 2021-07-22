@@ -1,12 +1,12 @@
 /**
  * 
  */
-package com.revature.daos;
+package com.revature.daos.deprecated;
 
 import org.hibernate.Session;
 
-import com.revature.models.Food;
-import com.revature.models.Manager;
+import com.revature.models.deprecated.Food;
+import com.revature.models.deprecated.Manager;
 import com.revature.utils.HibernateUtil;
 
 /**

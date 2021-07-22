@@ -14,10 +14,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.revature.models.Food;
-import com.revature.models.FoodTypes;
-import com.revature.models.FoodsResponseDTO;
-import com.revature.models.Manager;
 import com.revature.models.NewTicketDTO;
 import com.revature.models.RegisterDTO;
 import com.revature.models.Ticket;
@@ -26,11 +22,17 @@ import com.revature.models.TicketType;
 import com.revature.models.TicketsResponseDTO;
 import com.revature.models.User;
 import com.revature.models.UserRole;
-
+import com.revature.models.deprecated.Food;
+import com.revature.models.deprecated.FoodTypes;
+import com.revature.models.deprecated.FoodsResponseDTO;
+import com.revature.models.deprecated.Manager;
 import com.revature.services.TicketService;
 import com.revature.services.UserService;
 
 /**
+ * All functions related to tickets. The controller prepare data and produce the 
+ * json/html response with a status code as well as adding session. 
+ * 
  * @author Kenneth Eng
  *
  */
@@ -43,6 +45,14 @@ public class TicketController {
 	private List<TicketType> ticketTypesList;
 	private List<TicketStatus> ticketStatusList;
 
+	/*
+	 * The method is used to initial the DB
+	 * It also produce response 
+	 * 
+	 * param res - HttpServletResponse object which is used to hold
+	 * response data
+	 * 
+	 */
 	public void initTicketDB( HttpServletResponse res) throws IOException {
 		
 		
@@ -65,12 +75,30 @@ public class TicketController {
 		
 	}
 	
+	/*
+	 * The method is used to approve a ticket by calling the service layer.
+	 * It also produce response and send it back to client
+	 * 
+	 * param id - the id of the ticket
+	 * param res - HttpServletResponse object which is used to hold
+	 * response data
+	 * 
+	 */
 	public void approveTicket(HttpServletResponse res, int id) throws IOException {
 		ticketService.approveTicketById(id);
 		res.getWriter().print("Ticket "+ id + " is approved");
 		res.setStatus(200);
 	}
 	
+	/*
+	 * The method is used to reject a ticket by calling the service layer.
+	 * It also produce response and send it back to client
+	 * 
+	 * param id - the id of the ticket
+	 * param res - HttpServletResponse object which is used to hold
+	 * response data
+	 * 
+	 */
 	public void rejectTicket(HttpServletResponse res, int id) throws IOException {
 		ticketService.rejectTicketById(id);
 		res.getWriter().print("Ticket "+ id + " is approved");
@@ -78,6 +106,16 @@ public class TicketController {
 		
 	}
 
+	/*
+	 * The method is used to insert a ticket by calling the service layer.
+	 * It also produce response and send it back to client
+	 * 
+	 * param req - HttpServletRespnse object is used to provide req headers, 
+	 * and body informations
+	 * param res - HttpServletResponse object is used to hold
+	 * response data
+	 * 
+	 */
 	public void insertTicket(HttpServletRequest req, HttpServletResponse res) throws IOException {
 		BufferedReader reader = req.getReader();
 		
@@ -117,6 +155,15 @@ public class TicketController {
 		
 	}
 	
+	/*
+	 * The method is used to get a ticket by calling the service layer.
+	 * It also produce response and send it back to client
+	 * 
+	 * param id - the id of the ticket
+	 * param res - HttpServletResponse object which is used to hold
+	 * response data
+	 * 
+	 */
 	public void getTicketByUserId(HttpServletResponse res, int id )throws IOException {
 		List<Ticket> tickets = ticketService.getTicketsByUserId(id);
 		
@@ -147,6 +194,15 @@ public class TicketController {
 		res.setStatus(200);
 	}
 	
+	/*
+	 * The method is used to get a ticket by calling the service layer.
+	 * It also produce response and send it back to client
+	 * 
+	 * param type - the string consists of the type of the ticket
+	 * param res - HttpServletResponse object which is used to hold
+	 * response data
+	 * 
+	 */
 	public void getTicketsByType(HttpServletResponse res, String type) throws IOException {
 		//insertTicket( res);
 		
@@ -191,10 +247,19 @@ public class TicketController {
 		res.setStatus(200);
 	}
 	
-	public void getTicketsByStatus(HttpServletResponse res, String type) throws IOException {
+	/*
+	 * The method is used to approve a ticket by calling the service layer.
+	 * It also produce response and send it back to client
+	 * 
+	 * param status - the status of the ticket
+	 * param res - HttpServletResponse object which is used to hold
+	 * response data
+	 * 
+	 */
+	public void getTicketsByStatus(HttpServletResponse res, String status) throws IOException {
 		//insertTicket( res);
 		
-		String type1 = type.toLowerCase();
+		String type1 = status.toLowerCase();
 		int id = 0;
 		ticketStatusList = ticketService.getAllTikcetStatus();
 		for (TicketStatus t: ticketStatusList ) {
@@ -235,6 +300,14 @@ public class TicketController {
 		res.setStatus(200);
 	}
 	
+	/*
+	 * The method is used to load all tickets by calling the service layer.
+	 * It also produce response and send it back to client
+	 * 
+	 * param res - HttpServletResponse object which is used to hold
+	 * response data
+	 * 
+	 */
 	public void loadAllTickets(HttpServletResponse res) throws IOException{
 		System.out.println("Hello from Food Controller");
 		

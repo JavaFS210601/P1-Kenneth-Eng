@@ -8,17 +8,26 @@ import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-import com.revature.models.Food;
 import com.revature.models.Ticket;
 import com.revature.models.TicketStatus;
 import com.revature.models.TicketType;
+import com.revature.models.deprecated.Food;
 import com.revature.utils.HibernateUtil;
 
 /**
+ * The DAO object that are responsible for communicate with database using 
+ * Hibernate to handle ticket data
+ * 
  * @author Kenneth Eng
  *
  */
 public class TicketDao {
+	
+	/*
+	 * A method create hibernate session, HQL and perform the query and 
+	 * return a list of all tickets
+	 *  
+	 */
 	public List<Ticket> findAllTickets() {
 
 		Session ses = HibernateUtil.getSession();
@@ -35,7 +44,12 @@ public class TicketDao {
 
 	}
 	
-
+	/*
+	 * A method create hibernate session, HQL and perform the query and 
+	 * update the ticket
+	 * 
+	 * param ticket - the ticket  to update
+	 */
 	public void updateTicket(Ticket ticket) {
 		
 		Session ses = HibernateUtil.getSession();
@@ -46,20 +60,13 @@ public class TicketDao {
 		HibernateUtil.closeSession();
 	}
 	
-	public void apprveTicketByTicketId(int id) {
-		Session ses = HibernateUtil.getSession();
-		
-		
-		
-//		Query query = ses.createQuery("UPDATE Ticket  SET ticketStatus = :statusid"
-//				+ " WHERE id = :userid" );
-//		 query.setParameter("statusid", 2);
-//		 query.setParameter("userid", id);
-		
-		 
-		HibernateUtil.closeSession();
-	}
 
+	/*
+	 * A method create hibernate session, HQL and perform the query and 
+	 * insert a ticket to the database
+	 * 
+	 * param ticket - the ticket to be inserted
+	 */
 	public void insertTicket(Ticket ticket) {
 
 		Session ses = HibernateUtil.getSession();
@@ -69,6 +76,12 @@ public class TicketDao {
 		HibernateUtil.closeSession();
 	}
 	
+	/*
+	 * A method create hibernate session, HQL and perform the query and 
+	 * return a list tickets created by the user who has the given id
+	 * 
+	 * param id - the id of the user
+	 */
 	public List<Ticket> getTicketsByUserId(int id) {
 		Session ses = HibernateUtil.getSession();
 
@@ -80,7 +93,13 @@ public class TicketDao {
 
 		return ticketList;
 	}
-
+	
+	/*
+	 * A method create hibernate session, HQL and perform the query and 
+	 * return a ticket besed on the id 
+	 * 
+	 * param id - ticket id
+	 */
 	public Ticket getTicketById(int id) {
 
 		Session ses = HibernateUtil.getSession();
@@ -104,6 +123,11 @@ public class TicketDao {
 		return ticketTypes;
 	}
 	
+	/*
+	 * A method create hibernate session, HQL and perform the query and 
+	 * return a list of Ticket Status
+	 * 
+	 */
 	public List<TicketStatus> getTicketStatus() {
 		
 		Session ses = HibernateUtil.getSession();
@@ -115,6 +139,12 @@ public class TicketDao {
 		return ticketStatus;
 	}
 
+	/*
+	 * A method create hibernate session, HQL and perform the query and 
+	 * return a list of ticket type
+	 * 
+	 * param id - the id of ticket type
+	 */
 	public TicketType getTicketTypeById(int id) {
 		Session ses = HibernateUtil.getSession();
 
@@ -125,6 +155,12 @@ public class TicketDao {
 		return ticketType;
 	}
 	
+	/*
+	 * A method create hibernate session, HQL and perform the query and 
+	 * return a list of ticket status
+	 * 
+	 * param id - the id of the ticket status 
+	 */
 	public TicketStatus getTicketStatusById(int id) {
 		
 		Session ses = HibernateUtil.getSession();
@@ -146,6 +182,12 @@ public class TicketDao {
 		return results;
 	}
 	
+	/*
+	 * A method create hibernate session, HQL and perform the query and 
+	 * return a list of ticket based on the type
+	 * 
+	 * param id - the id of the ticket status
+	 */
 	public List<Ticket> getTicketsByStatus(int id) {
 		
 		Session ses = HibernateUtil.getSession();
@@ -156,7 +198,12 @@ public class TicketDao {
 		return results;
 	}
 
-
+	/*
+	 * A method create hibernate session, HQL and perform the query and 
+	 * return a list of tickets based its name
+	 * 
+	 * param name- the name of the type
+	 */
 	public TicketType getTicketTypeByName(String name) {
 		Session ses = HibernateUtil.getSession();
 

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.revature.controllers;
+package com.revature.controllers.deprecated;
 
 import java.io.IOException;
 import java.util.List;
@@ -9,8 +9,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.revature.models.Customer;
-import com.revature.services.CustomerService;
+import com.revature.models.deprecated.Customer;
+import com.revature.services.deprecated.CustomerService;
 /**
  * 
  *  deprecated Customer Controller class

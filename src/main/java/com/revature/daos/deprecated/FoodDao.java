@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.revature.daos;
+package com.revature.daos.deprecated;
 
 import java.io.IOException;
 import java.util.List;
@@ -10,9 +10,9 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.revature.models.Food;
-import com.revature.models.FoodStatus;
-import com.revature.models.FoodTypes;
+import com.revature.models.deprecated.Food;
+import com.revature.models.deprecated.FoodStatus;
+import com.revature.models.deprecated.FoodTypes;
 import com.revature.utils.HibernateUtil;
 
 /**

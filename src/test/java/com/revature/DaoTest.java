@@ -9,9 +9,9 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import com.revature.daos.FoodDao;
 import com.revature.daos.UserDao;
-import com.revature.models.Food;
+import com.revature.daos.deprecated.FoodDao;
+import com.revature.models.deprecated.Food;
 
 /**
  * @author Kenneth Eng

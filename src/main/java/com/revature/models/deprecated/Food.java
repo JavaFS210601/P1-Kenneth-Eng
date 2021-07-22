@@ -1,4 +1,4 @@
-package com.revature.models;
+package com.revature.models.deprecated;
 import java.util.Objects;
 
 import javax.persistence.CascadeType;
@@ -11,6 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import com.revature.models.User;
 
 @Entity
 @Table(name = "foods") // this isn't necessary , but it specifics the name of table as "foods"

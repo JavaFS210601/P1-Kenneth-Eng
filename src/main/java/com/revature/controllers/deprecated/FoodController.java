@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.revature.controllers;
+package com.revature.controllers.deprecated;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -10,17 +10,17 @@ import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.revature.daos.FoodDao;
-import com.revature.daos.ManagerDao;
-import com.revature.models.Food;
-import com.revature.models.FoodStatus;
-import com.revature.models.FoodTypes;
-import com.revature.models.FoodsResponseDTO;
-import com.revature.models.Manager;
+import com.revature.daos.deprecated.FoodDao;
+import com.revature.daos.deprecated.ManagerDao;
 import com.revature.models.User;
 import com.revature.models.UserRole;
-import com.revature.services.FoodService;
+import com.revature.models.deprecated.Food;
+import com.revature.models.deprecated.FoodStatus;
+import com.revature.models.deprecated.FoodTypes;
+import com.revature.models.deprecated.FoodsResponseDTO;
+import com.revature.models.deprecated.Manager;
 import com.revature.services.UserService;
+import com.revature.services.deprecated.FoodService;
 
 /**
  * @author Kenneth Eng

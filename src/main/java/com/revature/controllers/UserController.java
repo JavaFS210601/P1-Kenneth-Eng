@@ -14,14 +14,17 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.revature.models.Customer;
 import com.revature.models.LoginDTO;
 import com.revature.models.RegisterDTO;
 import com.revature.models.User;
 import com.revature.models.UserResponseDTO;
+import com.revature.models.deprecated.Customer;
 import com.revature.services.UserService;
 
 /**
+ * All functions related to users. The controller prepare data and produce the 
+ * json/html response with a status code as well as adding session.
+ * 
  * @author Kenneth Eng
  *
  */
@@ -30,6 +33,15 @@ public class UserController {
 	private ObjectMapper  om = new ObjectMapper();
 	private UserService userService = new UserService();
 	
+
+	/*
+	 * The method is used to get all users by calling the service layer.
+	 * It also produce response and send it back to client
+	 * 
+	 * param res - HttpServletResponse object which is used to hold
+	 * response data
+	 * 
+	 */
 	public void getAllUsers(HttpServletResponse res) throws IOException{
 		
 		res.setContentType("application/json");
@@ -67,6 +79,17 @@ public class UserController {
 		System.out.println("hello from customer controller");
 	}
 	
+
+	/*
+	 * The method is used to register a user by calling the service layer.
+	 * It also produce response and send it back to client
+	 * 
+	 * param req - HttpServletRespnse object is used to provide req headers, 
+	 * and body informations
+	 * param res - HttpServletResponse object which is used to hold
+	 * response data
+	 * 
+	 */
 	public void register(HttpServletRequest req, HttpServletResponse res) throws IOException {
 		System.out.println("registering customer");
 		if( req.getMethod().equals("POST")) {
@@ -99,6 +122,17 @@ public class UserController {
 		}
 		
 	}
+	
+	/*
+	 * The method is used to autolog  a user by calling the service layer.
+	 * It also produce response and send it back to client
+	 * 
+	 * param req - HttpServletRespnse object is used to provide req headers, 
+	 * and body informations
+	 * param res - HttpServletResponse object which is used to hold
+	 * response data
+	 * 
+	 */
 	public void autoLogin(HttpServletRequest req, HttpServletResponse res) throws IOException {
 		HttpSession session = req.getSession();
 		
@@ -113,18 +147,18 @@ public class UserController {
 		
 		String name = (String)session.getAttribute("username");
 		String pwd = (String)session.getAttribute("password");
-//		User user = userService.getUserByUserByUsernameAndPassword(name, pwd);
-//		
-//		 UserResponseDTO userResponse = new UserResponseDTO();
-//		 
-//		 userResponse.setUserid( user.getUserId());
-//		 userResponse.setUsername(user.getUsername());
-//		 //userResponse.setPassword(user.getPassword());
-//		 userResponse.setFirstname(user.getFirstname());
-//		 userResponse.setLastname(user.getLastname());
-//		 userResponse.setUserrole(user.getUserrole().getUserRole());
-//		
-//		 String json = om.writeValueAsString( userResponse);
+		User user = userService.getUserByUserByUsernameAndPassword(name, pwd);
+		
+		 UserResponseDTO userResponse = new UserResponseDTO();
+		 
+		 userResponse.setUserid( user.getUserId());
+		 userResponse.setUsername(user.getUsername());
+		 //userResponse.setPassword(user.getPassword());
+		 userResponse.setFirstname(user.getFirstname());
+		 userResponse.setLastname(user.getLastname());
+		 userResponse.setUserrole(user.getUserrole().getUserRole());
+		
+		 String json = om.writeValueAsString( userResponse);
 		 
 		System.out.println("auto login " + name + pwd);
 		res.setStatus(200);
@@ -132,6 +166,14 @@ public class UserController {
 		res.getWriter().print("success");
 	}
 	
+	/*
+	 * The method is used to prepare a Data translate object which 
+	 * is used for converting data to json
+	 * 
+	 * param name - the name of user
+	 * param pwd - the pwd of the user
+	 * 
+	 */
 	private String prepareUserDTO(String name, String pwd) throws IOException{
 		User user = userService.getUserByUserByUsernameAndPassword(name, pwd);
 		
@@ -149,6 +191,16 @@ public class UserController {
 		 return json;
 	}
 	
+	/*
+	 * The method is used to login a user by calling the service layer.
+	 * It also produce response and send it back to client
+	 * 
+	 * param req - HttpServletRespnse object is used to provide req headers, 
+	 * and body informations
+	 * param res - HttpServletResponse object which is used to hold
+	 * response data
+	 * 
+	 */
 	public void login(HttpServletRequest req, HttpServletResponse res) throws IOException {
 			if (req.getMethod().equals("POST")) {
 				BufferedReader reader = req.getReader();

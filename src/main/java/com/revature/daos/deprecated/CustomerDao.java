@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.revature.daos;
+package com.revature.daos.deprecated;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -10,7 +10,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.revature.models.Customer;
+import com.revature.models.deprecated.Customer;
 import com.revature.utils.ConnectionUtilities;
 
 /**

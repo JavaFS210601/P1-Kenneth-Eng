@@ -1,13 +1,13 @@
 /**
  * 
  */
-package com.revature.services;
+package com.revature.services.deprecated;
 
 import java.util.List;
 
-import com.revature.daos.CustomerDao;
-import com.revature.daos.CustomerDaoInterface;
-import com.revature.models.Customer;
+import com.revature.daos.deprecated.CustomerDao;
+import com.revature.daos.deprecated.CustomerDaoInterface;
+import com.revature.models.deprecated.Customer;
 
 /**
  * @author ocean

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.revature.models;
+package com.revature.models.deprecated;
 
 import java.util.Objects;
 

@@ -1,11 +1,11 @@
 /**
  * 
  */
-package com.revature.daos;
+package com.revature.daos.deprecated;
 
 import java.util.List;
 
-import com.revature.models.Customer;
+import com.revature.models.deprecated.Customer;
 
 /**
  * @author Kenneth Eng

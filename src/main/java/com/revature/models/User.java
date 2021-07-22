@@ -19,6 +19,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.revature.models.deprecated.Food;
+
 /**
  * User class that represent each registered user.
  * 

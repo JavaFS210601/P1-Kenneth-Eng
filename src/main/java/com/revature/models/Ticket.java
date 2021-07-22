@@ -18,6 +18,7 @@ import javax.persistence.Table;
 
 /**
  * User can create tickets for reimbursement as: LODGING, TRAVEL, FOOD, or OTHER 
+ * 
  * @author Kenneth Eng
  *
  */

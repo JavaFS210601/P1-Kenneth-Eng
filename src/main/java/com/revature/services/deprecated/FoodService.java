@@ -1,19 +1,19 @@
 /**
  * 
  */
-package com.revature.services;
+package com.revature.services.deprecated;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.revature.daos.CustomerDao;
-import com.revature.daos.CustomerDaoInterface;
-import com.revature.daos.FoodDao;
-import com.revature.models.Customer;
-import com.revature.models.Food;
-import com.revature.models.FoodStatus;
-import com.revature.models.FoodTypes;
+import com.revature.daos.deprecated.CustomerDao;
+import com.revature.daos.deprecated.CustomerDaoInterface;
+import com.revature.daos.deprecated.FoodDao;
+import com.revature.models.deprecated.Customer;
+import com.revature.models.deprecated.Food;
+import com.revature.models.deprecated.FoodStatus;
+import com.revature.models.deprecated.FoodTypes;
 
 /**
  * Service Layer sit between controller and dao layer 
