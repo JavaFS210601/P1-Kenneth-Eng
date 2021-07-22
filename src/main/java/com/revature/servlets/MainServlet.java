@@ -64,11 +64,13 @@ public class MainServlet extends HttpServlet{
 				} 
 				break;
 			case "tickets":
-				System.out.println("create ticket.");
+				System.out.println(" ticket related");
 				//if (req.getSession(false) != null) {
-					
+				
 				if (URi.length == 3) {
+					
 					ticketController.getTicketsByType(res, URi[2]);
+					
 				} else  {
 					//ticketController.initTicketDB(res);
 					ticketController.loadAllTickets( res);
@@ -80,20 +82,20 @@ public class MainServlet extends HttpServlet{
 				foodController.loadAllFood(res);
 				break;
 			case "users": 
-				
+				userController.getAllUsers(res);
 				// false means it will not create a new one.
-				if (req.getSession(false) != null) {
-					if (req.getCookies() != null) {
-						System.out.println("hello from customer. this is your cookies");
-						
-					}	
-					//userController.getAllUsers(res);
-					res.setStatus(403);
-					//foodController.loadAllFood();
-				} else {
-					//res.setStatus(403);
-					userController.getAllUsers(res);
-				}
+//				if (req.getSession(false) != null) {
+//					if (req.getCookies() != null) {
+//						System.out.println("hello from customer. this is your cookies");
+//						
+//					}	
+//					userController.getAllUsers(res);
+//					
+//				
+//				} else {
+//					res.setStatus(403);
+//					
+//				}
 
 				break;
 		
@@ -154,12 +156,13 @@ public class MainServlet extends HttpServlet{
 					
 //					req.getSession(false).getAttribute("username");
 //					
-					userController.autoLogin(req, res);
+					//userController.autoLogin(req, res);
 					
 				
-					//userController.login(req, res);
+					userController.login(req, res);
 					
 				} else {
+					
 					userController.login(req, res);
 				}
 				break;

@@ -46,7 +46,7 @@ public class UserService {
 		return false;
 	}
 
-	public boolean register(String username, String password) {
+	public boolean register(String username, String password , String email , String role) {
 		List<UserRole> userRoles = userDao.getAllUserRole();
 		
         User user = null;
@@ -60,8 +60,13 @@ public class UserService {
 			// already have an account
 			return false;
 		} else {
-			System.out.println(username + "registered");
-			//userDao.insertUser(new User(username, password, userRoles.get(1)));
+			for(UserRole sr : userRoles) {
+				if ( sr.getUserRole().equals(role)) {
+					System.out.println(username + "registered " + sr.getUserId());
+					userDao.insertUser(new User(username, password, sr));
+				}
+			}
+			
 		}
 
 		return true;
@@ -69,9 +74,10 @@ public class UserService {
 
 	public boolean findUserByName(String name) {
 		List<User> userList = userDao.findAllUsers();
-
+		
 		for (User user : userList) {
-			if (user.getUsername() == name) {
+			
+			if (user.getUsername().matches( name)) {
 				return true;
 			}
 		}

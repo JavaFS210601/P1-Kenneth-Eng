@@ -41,6 +41,7 @@ public class TicketController {
 	private UserService userService = new UserService();
 	
 	private List<TicketType> ticketTypesList;
+	private List<TicketStatus> ticketStatusList;
 
 	public void initTicketDB( HttpServletResponse res) throws IOException {
 		
@@ -110,7 +111,7 @@ public class TicketController {
 		Timestamp createdate = new Timestamp(today.getTime());
 		Timestamp resolvedate = new Timestamp(today.getTime());
 		Ticket ticket1 = new Ticket(newTicketDTO.getName(),createdate, resolvedate , newTicketDTO.getDescription(), newTicketDTO.getAmount(), "" , u1, t1, s1 );
-		//ticketService.insertTicket(ticket1);
+		ticketService.insertTicket(ticket1);
 		System.out.println(ticket1.toString());
 		res.setStatus(200);
 		
@@ -190,6 +191,50 @@ public class TicketController {
 		res.setStatus(200);
 	}
 	
+	public void getTicketsByStatus(HttpServletResponse res, String type) throws IOException {
+		//insertTicket( res);
+		
+		String type1 = type.toLowerCase();
+		int id = 0;
+		ticketStatusList = ticketService.getAllTikcetStatus();
+		for (TicketStatus t: ticketStatusList ) {
+			
+			if (type1.equals(t.getTicketStatus())) {
+				id = t.getTicketStatusId();
+				break;
+			}
+			
+		}
+		
+		List<Ticket> tickets = ticketService.getTicketsByStatus(id);
+		
+		List<TicketsResponseDTO> ticketResponseList = new ArrayList<TicketsResponseDTO>();
+		for(Ticket t : tickets) {
+			//System.out.println(f.getId() + " " + f.getName() + " " + f.getFoodtype().toString() + f.getFoodstatus().toString());
+			TicketsResponseDTO ticketResponse = new TicketsResponseDTO();
+			ticketResponse.setId(t.getId());
+			ticketResponse.setName(t.getName());
+			ticketResponse.setReceipt(t.getReceipt());
+			ticketResponse.setCreateDate(t.getCreateDate());
+			ticketResponse.setResolveDate(t.getResolveDate());
+			ticketResponse.setDescription(t.getDescription());
+			ticketResponse.setAmount(t.getAmount());
+			ticketResponse.setOwner(t.getOwner().getUsername());
+			ticketResponse.setTicketType(t.getTicketType().getTicketType());
+			ticketResponse.setTicketStatus(t.getTicketStatus().getTicketStatus());
+			ticketResponseList.add(ticketResponse);
+		}
+		
+		res.setContentType("application/json");
+		res.setCharacterEncoding("UTF-8");
+		
+		String json = om.writeValueAsString(ticketResponseList);
+		System.out.println(json);
+		res.getWriter().print(json);
+		
+		res.setStatus(200);
+	}
+	
 	public void loadAllTickets(HttpServletResponse res) throws IOException{
 		System.out.println("Hello from Food Controller");
 		
@@ -208,8 +253,9 @@ public class TicketController {
 			ticketsResponse.setReceipt(f.getReceipt());
 			ticketsResponse.setCreateDate(f.getCreateDate());
 			ticketsResponse.setResolveDate(f.getResolveDate());
-			ticketsResponse.setTicketStatus(f.getTicketType().getTicketType());
-			ticketsResponse.setTicketType(f.getTicketStatus().getTicketStatus());
+			ticketsResponse.setOwner(f.getOwner().getUsername());
+			ticketsResponse.setTicketStatus(f.getTicketStatus().getTicketStatus());
+			ticketsResponse.setTicketType(f.getTicketType().getTicketType() );
 			ticketsResponseList.add(ticketsResponse);
 		}
 		

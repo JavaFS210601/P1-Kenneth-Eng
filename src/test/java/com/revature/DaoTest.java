@@ -41,7 +41,7 @@ public class DaoTest {
 	public static void init() {
 		System.out.println("In BeforeAll");
 		
-		DaoTest dt = new DaoTest();
+		//DaoTest dt = new DaoTest();
 	}
 	
 	@BeforeEach

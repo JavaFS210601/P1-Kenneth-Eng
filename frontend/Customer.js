@@ -10,12 +10,13 @@ employeeElements = document.getElementsByClassName("signedin");
 employeeElements[0].style.display = "none";
 employeeElements[1].style.display = "none";
 
-window.addEventListener('load', function () {
-    //keepMeLogin()
-      //loginFunc()
 
+window.addEventListener('load', function () {
 })
 
+/*
+ This function is used to keep user login after refresh
+*/
 function keepMeLogin(){
   // IsThisFirstTime_Log_From_LiveServer
   var loginname = getCookie("username");
@@ -38,7 +39,9 @@ function keepMeLogin(){
 }
 
 
-
+/*
+  initializatio of the page.
+*/
 var darkModeButton = document.getElementById('myButton');
 var bg3 = document.getElementsByClassName("card");
 for (let i = 0; i < bg3.length; i++) {
@@ -56,25 +59,12 @@ document.body.style.color = "white";
 document.cookie = "darkmode=false";
 darkModeButton.innerText = "Night Mode On";
 
-//document.getElementById('registerButton').addEventListener('click', registerFunc);
-
-// async function registerFunc(){
-//     let response = await fetch(url +  'register' ,{
-//       method: "POST",
-//       headers:{
-//         "Content-Type": "application/json",
-//         "Connnection": "Keep-alive"
-//       },
-//       credentials: "include"
-//     });
-//     if (response.status === 200){
-//       console.log(response)
-    
-//     }
-// }
 
 document.getElementById('getCustomerButton').addEventListener('click', assembleFunc);
 
+/*
+ This function is used to get  all user data
+*/
 async function assembleFunc(){
 
     let response = await fetch(url + 'users', {
@@ -100,7 +90,8 @@ async function assembleFunc(){
         for (let user of data) {
             
             let row = document.createElement('tr');
-
+            row.style.backgroundColor = "gray";
+            
             let cell = document.createElement('td');
             cell.innerHTML = user.userid;
             row.appendChild(cell);
@@ -137,6 +128,9 @@ async function assembleFunc(){
     // return response;
 }
 
+/*
+ This function is used to login the user 
+*/
 document.getElementById("loginButton").addEventListener("click", loginFunc);
 
 
@@ -176,6 +170,8 @@ async function loginFunc() {
 
      //control flow based on success or failed login
      if(response.status === 200) {
+        //Headers headers = response.headers;
+        //myHeaders.get('');
         
         storeUserCookie(username);
         storePwdCookie(password);
@@ -210,6 +206,7 @@ async function loginFunc() {
           employeeElements = document.getElementsByClassName("signedin");
           employeeElements[0].style.display = "block";
           employeeElements[1].style.display = "block";
+
         }
         // document.cookie = "username=ken; expires=Thu, 18 july 2021 12:00:00"
     } else {
@@ -330,6 +327,9 @@ async function typeFunc(){
 
 //////////////////////////////////////////////////////////////////////////
 
+/*
+ This function is used to retrieve food data
+*/
 document.getElementById('getFoodButton').addEventListener('click', loadFunc);
 
 async function loadFunc(){
@@ -390,6 +390,9 @@ async function loadFunc(){
 document.getElementById('myButton').addEventListener('click', bgDark);
 
 
+/*
+ This function is used to switch the style of the page between night mode and light mode
+*/
 function bgDark(){
     console.log("darkmode!");
     //let bg = document.getElementById("fullcontainer");
@@ -439,6 +442,9 @@ function bgDark(){
     
 }
 
+/*
+ This function is used to store the username cookie data
+*/
 function storeUserCookie(name){
   var expires = "";
      
@@ -450,6 +456,9 @@ function storeUserCookie(name){
   // document.cookie = "pwd"+"="+password+expires+"; path=/";
 }
 
+/*
+ This function is used to store the pwd cookie data
+*/
 function storePwdCookie(name){
   var expires = "";
      
@@ -461,6 +470,9 @@ function storePwdCookie(name){
   // document.cookie = "pwd"+"="+password+expires+"; path=/";
 }
 
+/*
+ This function is used to store the userid cookie data
+*/
 function storeIDCookie(id){
   var expires = "";
      
@@ -472,6 +484,11 @@ function storeIDCookie(id){
   
 }
 
+
+
+/*
+ This function is used to extract the cookie data
+*/
 function getCookie(cname) {
     let name = cname + "=";
     let decodedCookie = decodeURIComponent(document.cookie);

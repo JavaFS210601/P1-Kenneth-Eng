@@ -2,6 +2,9 @@ const url = 'http://localhost:8081/P1-Kenneth-Eng/';
 
 document.getElementById('getFoodButton').addEventListener('click', loadFunc);
 
+/*
+ This function is used to load all the food data
+*/
 async function loadFunc(){
 
     let response = await fetch(url + 'foods/', {

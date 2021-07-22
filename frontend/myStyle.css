@@ -15,10 +15,16 @@
 #myButton {
     margin-top: 1em;
 }
+#ticketTable{
+}
+
+#fullcontainer{
+    
+}
 
 body{
     background-image: url(/pexels-photo-260689.jpeg)  ;
     background-blend-mode: darken;
-    opacity: 0.9;
+   
     
 }

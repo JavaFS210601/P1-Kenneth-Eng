@@ -84,11 +84,11 @@ public class UserController {
 			String body = new String(myStringBuilder);
 			
 			RegisterDTO registerDTO = om.readValue(body, RegisterDTO.class);
-			
-			if (userService.register(registerDTO.username, registerDTO.password)) {
+			//System.out.println(body);
+			if (userService.register(registerDTO.username, registerDTO.password, registerDTO.getEmail(), registerDTO.getRole()) ) {
 				
 				
-				userService.register(registerDTO.username, registerDTO.password );
+				//userService.register(registerDTO.username, registerDTO.password, registerDTO.getRole() );
 				
 				res.setStatus(200);
 				res.getWriter().print("Hi, Register was successful");

@@ -2,7 +2,9 @@ document.getElementById('getTicketsButton').addEventListener('click', loadFunc);
 
 document.getElementById('employeeTicketButton').addEventListener('click', loadEmployeeTickets)
 
-
+/*
+ This function is used to request employee tickets from backend with the id. 
+*/
 async function loadEmployeeTickets(){
     
     let id = getCookie("userid");
@@ -25,10 +27,19 @@ async function loadEmployeeTickets(){
         console.log(data);
         let container = document.getElementById('employeeTicketBody');
         container.innerText = "";
+        let parentdiv = document.createElement('div');
+        let parentdiv2 = document.createElement('div');
+        let parentdiv3 = document.createElement('div');
+        parentdiv.classList.add('col-md-4');
+        parentdiv2.classList.add('col-md-4');
+        parentdiv3.classList.add('col-md-4');
 
+        let titleDiv = document.createElement('div');
+        titleDiv.classList.add("row");
+        titleDiv.innerHTML = "<div class='col' >Pending</div> <div class='col'>Rejected</div><div class='col'>Approved</div> ";
+        container.appendChild(titleDiv);
         for (let ticket of data) {
-            let parentdiv = document.createElement('div');
-            parentdiv.classList.add('col-md-4');
+           
 
             let row1 = document.createElement('div');
             //row1.classList.add("col-md-4");
@@ -80,31 +91,88 @@ async function loadEmployeeTickets(){
 
             let cellDate1 = document.createElement('div');
             let create_date = new Date(ticket.createDate);
-            cellDate1.innerHTML = "Date: "+ create_date.getDate()+
-                            "/"+(create_date.getMonth()+1)+
+            cellDate1.innerHTML = "Submitted Date: "+ (create_date.getMonth()+1)+
+                            "/"+create_date.getDate()+
                                 "/"+create_date.getFullYear()+
                                     " "+create_date.getHours()+
                                         ":"+create_date.getMinutes()+
-                                            ":"+create_date.getSeconds() + " pst"
+                                            ":"+create_date.getSeconds()  +" pst";
             row.appendChild(cellDate1);
 
-            let cellDate2 = document.createElement('td');
-            let solve_date = new Date(ticket.resolveDate);
-            cellDate2 .innerHTML = "Date: "+ solve_date.getDate()+
-                                    "/"+(solve_date.getMonth()+1)+
-                                        "/"+solve_date.getFullYear()+
-                                            " "+solve_date.getHours()+
-                                                ":"+solve_date.getMinutes()+
-                                                    ":"+solve_date.getSeconds() + "pst" ;
-            row.appendChild(cellDate2 );
+            if (ticket.createDate === ticket.resolveDate) {
+                let cellDate2 = document.createElement('div');
+                cellDate2.innerHTML = "No response yet";
+                row.appendChild(cellDate2 );
+            } else {
 
-            parentdiv.appendChild(row1);
-            container.appendChild(parentdiv);
+                let cellDate2 = document.createElement('div');
+                let solve_date = new Date(ticket.resolveDate);
+                cellDate2 .innerHTML = "Resolved Date: "+ (solve_date.getMonth()+1)+
+                                        "/"+solve_date.getDate()+
+                                            "/"+solve_date.getFullYear()+
+                                                " "+solve_date.getHours()+
+                                                    ":"+solve_date.getMinutes()+
+                                                        ":"+solve_date.getSeconds() + " pst" ;
+                row.appendChild(cellDate2 );
+            }
+           
+            if (ticket.ticketStatus === "pending"){
+                parentdiv.appendChild(row1);
+                container.appendChild(parentdiv);
+           
+            } else if (ticket.ticketStatus === "approve") {
+                parentdiv2.appendChild(row1);
+                container.appendChild(parentdiv2);
+            } else {
+                parentdiv3.appendChild(row1);
+                container.appendChild(parentdiv3);
+            }
+         
+         
+           
         }
     }
 }
 
+document.getElementById('getPendingTicketsButton').addEventListener('click', showTicketByStatus);
+document.getElementById('getApprovedTicketsButton').addEventListener('click', showTicketByStatus);
+document.getElementById('getRejectedTicketsButton').addEventListener('click', showTicketByStatus);
+
+
+/*
+ This function is used to separate the employee tickets retrieved from backend into 
+ three category - approved, rejected, pending 
+*/
+function showTicketByStatus(){
+    //let ext = ""
+    console.log(this.innerText);
+    let showApproved = document.getElementsByClassName("approved");
+    let showRejected = document.getElementsByClassName("rejected");
+    let showPending = document.getElementsByClassName("pending");
+    if (this.innerText === "Pending") {
+        document.getElementById('pending')
+        for (let i = 0; i < showRejected.length; i++) {showRejected[i].style.display= "none";}
+        for (let i = 0; i < showPending.length; i++) {showPending[i].style.display= "";}
+        for (let i = 0; i < showApproved.length; i++) {showApproved[i].style.display= "none";}
+    } else if (this.innerText === "Approved") {
+
+        for (let i = 0; i < showRejected.length; i++) {showRejected[i].style.display= "none";}
+        for (let i = 0; i < showPending.length; i++) {showPending[i].style.display= "none";}
+        for (let i = 0; i < showApproved.length; i++) {showApproved[i].style.display= "";}
+     
+    } else if (this.innerText === "Rejected") {
+        for (let i = 0; i < showRejected.length; i++) {showRejected[i].style.display= "";}
+        for (let i = 0; i < showPending.length; i++) {showPending[i].style.display= "none";}
+        for (let i = 0; i < showApproved.length; i++) {showApproved[i].style.display= "none";}
+    } 
+}
+
+
+/*
+ This function is used to fetch all the tickets coming from the server
+*/
 async function loadFunc(){
+    
     
     let response = await fetch(url + 'tickets/', {
         method: "GET", 
@@ -120,6 +188,7 @@ async function loadFunc(){
     if (response.status === 200){
         console.log(response);
         document.getElementById("ticketBody").innerHTML = "";
+
         //let table = document.getElementByTagName('table');
         
 
@@ -129,7 +198,18 @@ async function loadFunc(){
             //console.log("username: " + customer.username);
             
             let row = document.createElement('tr');
-           
+            if (ticket.ticketStatus == "pending") {
+                row.classList.add("pending");
+        
+            } else if (ticket.ticketStatus == "approve") {
+                row.classList.add("approved");
+            } else if (ticket.ticketStatus == "rejected") {
+                row.classList.add("rejected");
+            }  
+            document.getElementById("filtersButton").style.display = "block";
+
+            row.style.backgroundColor = "gray";
+            row.style.opacity = "0.8";
 
             let cell = document.createElement('td');
             cell.innerHTML = ticket.id;
@@ -139,22 +219,26 @@ async function loadFunc(){
             cell1.innerHTML = ticket.name;
             row.appendChild(cell1);
 
+            let cell7 = document.createElement('td');
+            cell7.innerHTML = ticket.owner;
+            row.appendChild(cell7);
+
             let cell6 = document.createElement('td');
             cell6.innerHTML = ticket.amount;
             row.appendChild(cell6);
 
             let cell2 = document.createElement('td');
-            cell2.innerHTML = ticket.ticketStatus;
+            cell2.innerHTML = ticket.ticketType;
             row.appendChild(cell2);
 
             let cell3 = document.createElement('td');
-            cell3.innerHTML = ticket.ticketType;
+            cell3.innerHTML = ticket.ticketStatus;
             row.appendChild(cell3);
 
             let cell4 = document.createElement('td');
             let create_date = new Date(ticket.createDate);
             
-            cell4.innerHTML = "Date: "+ create_date.getDate()+
+            cell4.innerHTML = create_date.getDate()+
                             "/"+(create_date.getMonth()+1)+
                                 "/"+create_date.getFullYear()+
                                     " "+create_date.getHours()+
@@ -164,7 +248,7 @@ async function loadFunc(){
 
             let cell5 = document.createElement('td');
             let solve_date = new Date(ticket.resolveDate);
-            cell5.innerHTML = "Date: "+ solve_date.getDate()+
+            cell5.innerHTML = solve_date.getDate()+
                                     "/"+(solve_date.getMonth()+1)+
                                         "/"+solve_date.getFullYear()+
                                             " "+solve_date.getHours()+
@@ -198,7 +282,12 @@ async function loadFunc(){
 
            row.appendChild(ticketbuttonGroup);
 
-            document.getElementById("ticketBody").appendChild(row);
+           
+           document.getElementById("ticketBody").appendChild(row);
+
+       
+  
+
             //so the variable "row" we created alllll the way at the top of the for loop 
             //will be appended to our empty table body in the HTML
         }
@@ -220,6 +309,11 @@ document.getElementById('getTicketType3Button').addEventListener('click', typeFu
 document.getElementById('getTicketType4Button').addEventListener('click', typeFunc);
 //document.getElementById('getTicketType1Button').addEventListener('click', typeFunc);
 
+
+
+/*
+ This function is used to request employee tickets based on the type
+*/
 async function typeFunc(){
     let text = this.innerText;
     console.log(text);
@@ -333,8 +427,10 @@ async function typeFunc(){
 }
 
 
-//document.getElementById('approve').addEventListener('click', approveFunc());
 
+/*
+ This function is used to update the employee ticket to approve status
+*/
 async function approveFunc(id){
 
    // let text = this.innerText;
@@ -352,6 +448,9 @@ async function approveFunc(id){
     });
 }
 
+/*
+ This function is used to update the employee ticket to rejected status
+*/
 async function rejectFunc(id){
     console.log("reject");
    // console.log(this.innerHTML);
@@ -370,6 +469,9 @@ async function rejectFunc(id){
 
 document.getElementById("openTicketButton").addEventListener('click', openTicketFunc);
 
+/*
+ This function is used to create a employee ticket 
+*/
 async function openTicketFunc(){
 
     //let username = document.getElementById("").value;
@@ -408,10 +510,32 @@ async function openTicketFunc(){
 
     if (response.status === 200){
         console.log("success");
+        let openTicketSpace = document.getElementById("openTicketSpace");
+        let responseHTML = document.createElement("div");
+        responseHTML.innerText = " Successfully submitted the ticket. Please wait for manager to approve";
+        openTicketSpace.appendChild(responseHTML);
+    } else {
+        console.log("fail ticket");
+        let openTicketSpace = document.getElementById("openTicketSpace");
+        let responseHTML = document.createElement("div");
+        responseHTML.innerText = " Failed to  submit the ticket. Please wait for manager to approve";
+        openTicketSpace.appendChild(responseHTML);
     }
 
 }
 
+document.getElementById("resetTicketButton").addEventListener('click', resetTicket)
+
+function resetTicket(){ 
+    document.getElementById("ticketName").value = "";
+    document.getElementById("ticketAmount").value = "";
+    document.getElementById("ticketDescription").value = ""
+}
+
+/*
+ This function add a event listener to the approve and reject button and call apprveFunc or
+ rejectFunc to update the status of a ticket
+*/
 document.addEventListener('click',function(e){
     let buttonName = e.target.id.split("#")
 

@@ -36,6 +36,7 @@ UPDATE tickets
 SET ticket_type_id = 3 , ticket_name = "ticket for travle"
 WHERE ticket_id = 3;
 
+DELETE FROM ticket_type WHERE ticket_type_id = 4;
 DELETE FROM ticket_type WHERE ticket_type_id >= 6 AND ticket_type_id <=8;
 DELETE FROM ticket_status WHERE ticket_status_id >= 2 AND ticket_status_id <=4;	   
 

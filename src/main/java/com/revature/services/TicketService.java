@@ -70,7 +70,7 @@ public class TicketService {
 			if (ticket.getOwner().getUserId() == userid) {
 				usersTickets.add(ticket);
 			}
-		}
+		} 
 		
 		return usersTickets;
 	}
@@ -80,8 +80,16 @@ public class TicketService {
 		return ticketDao.getTicketsByType(type);
 	}
 	
+	public List<Ticket> getTicketsByStatus(int status){
+		return ticketDao.getTicketsByStatus(status);
+	}
+	
 	public List<TicketType> getAllTikcetTypes(){
 		return ticketDao.getTickettypes();
+	}
+	
+	public List<TicketStatus> getAllTikcetStatus(){
+		return ticketDao.getTicketStatus();
 	}
 	
 	public TicketType getTicketTypeByName(String name) {

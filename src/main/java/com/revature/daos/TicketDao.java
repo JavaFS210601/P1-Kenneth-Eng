@@ -103,6 +103,17 @@ public class TicketDao {
 		
 		return ticketTypes;
 	}
+	
+	public List<TicketStatus> getTicketStatus() {
+		
+		Session ses = HibernateUtil.getSession();
+		
+		List<TicketStatus> ticketStatus = ses.createQuery("FROM TicketStatus").list();
+		
+		HibernateUtil.closeSession();
+		
+		return ticketStatus;
+	}
 
 	public TicketType getTicketTypeById(int id) {
 		Session ses = HibernateUtil.getSession();
@@ -130,6 +141,16 @@ public class TicketDao {
 		Session ses = HibernateUtil.getSession();
 		
 		String hql = "FROM Ticket WHERE ticket_type_id = " + id;
+
+		List<Ticket> results = ses.createQuery(hql).list();
+		return results;
+	}
+	
+	public List<Ticket> getTicketsByStatus(int id) {
+		
+		Session ses = HibernateUtil.getSession();
+		
+		String hql = "FROM Ticket WHERE ticket_status_id = " + id;
 
 		List<Ticket> results = ses.createQuery(hql).list();
 		return results;
