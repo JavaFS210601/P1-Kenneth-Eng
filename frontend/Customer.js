@@ -14,29 +14,7 @@ employeeElements[1].style.display = "none";
 window.addEventListener('load', function () {
 })
 
-/*
- This function is used to keep user login after refresh
-*/
-function keepMeLogin(){
-  // IsThisFirstTime_Log_From_LiveServer
-  var loginname = getCookie("username");
-  var pwd = getCookie("pwd");
 
-  loginFunc();
-   if(loginname !=null && pwd != null){
-    //Show popup
-    var date = new Date();
-    date.setTime(date.getTime()+(-1*24*60*60*1000));
-    expires = "; expires="+date.toGMTString();
-    console.log(loginname + " " + pwd);
-    document.cookie = loginname+"="+ expires+"; path=/";
-    document.cookie = pwd+"="+  expires+"; path=/";
-   }
-   else{
-    //Show loginpage
-   }
- 
-}
 
 
 /*
@@ -140,10 +118,6 @@ async function loginFunc() {
     let username = document.getElementById("username").value;
     let password = document.getElementById("password").value;
 
-    // if (getCookie("username") && getCookie("pwd")){
-    //   username = getCookie("username");
-    //    password = getCookie("pwd");
-    // }
 
 
     let user = {
@@ -174,7 +148,7 @@ async function loginFunc() {
         //myHeaders.get('');
         
         storeUserCookie(username);
-        storePwdCookie(password);
+
       
         console.log(response);
         // let decodedCookie = decodeURIComponent(document.cookie);
@@ -453,22 +427,10 @@ function storeUserCookie(name){
   expires = "; expires="+date.toGMTString();
 
   document.cookie = "username"+"="+name+expires+"; path=/";
-  // document.cookie = "pwd"+"="+password+expires+"; path=/";
+
 }
 
-/*
- This function is used to store the pwd cookie data
-*/
-function storePwdCookie(name){
-  var expires = "";
-     
-  var date = new Date();
-  date.setTime(date.getTime()+(365*24*60*60*1000));
-  expires = "; expires="+date.toGMTString();
 
-  document.cookie = "password"+"="+name+expires+"; path=/";
-  // document.cookie = "pwd"+"="+password+expires+"; path=/";
-}
 
 /*
  This function is used to store the userid cookie data
